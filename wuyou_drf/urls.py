@@ -19,22 +19,45 @@ from django.conf.urls import include, url
 
 from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
+from wuyou_drf.settings import MEDIA_ROOT
+from django.views.static import serve
 
 # jwt内部实现的登陆视图
 from rest_framework_jwt.views import obtain_jwt_token
 
 from base.views import AreasView, BannersView, TestView
+from companys.views import CompanyView, JobView, WelfareView
+from users.views import UsersView
+from resumes.views import ResumeView, ResumeWorkingView, ResumeEducationView, ResumeJobView, ResumeProjectExperienceView
+
 
 router = DefaultRouter(trailing_slash=False)
 
 # 基础
-router.register(r'areas', AreasView, base_name="areas")    # 区域
-router.register(r'banners', BannersView, base_name="banners")    # 轮播图url
+router.register(r'areas', AreasView)    # 区域
+router.register(r'banners', BannersView)    # 轮播图url
+
+# 公司
+router.register(r'company', CompanyView)    # 公司
+router.register(r'job', JobView)    # 职位
+router.register(r'welfare', WelfareView)    # 福利
+
+# 用户
+router.register(r'users', UsersView)
+
+# 简历
+router.register(r'resume', ResumeView)
+router.register(r'resume_projectExperience', ResumeProjectExperienceView)
+router.register(r'resume_working', ResumeWorkingView)
+router.register(r'resume_education', ResumeEducationView)
+router.register(r'resume_job', ResumeJobView)
 
 urlpatterns = [
-    path('admin', admin.site.urls),
+    path('admin/', admin.site.urls),
     url(r'^docs/', include_docs_urls(title='无忧API')),
     url(r'^api/(?P<version>\w+)/', include(router.urls)),    # http://127.0.0.1:8080/api/v1
+    url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),  # 用于提供访问media资源
+    url('^ueditor/', include('DjangoUeditor.urls')),  # 富文本编辑器
     path(r'login', obtain_jwt_token),
     path(r'test', TestView.as_view()),
 ]

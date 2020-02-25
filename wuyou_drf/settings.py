@@ -31,7 +31,7 @@ SECRET_KEY = 'kkbks$(vfehnp+#u*_efydwp)%s90e)-r(l0#_&@58f@8f_8%&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'DjangoUeditor',
     'django_filters',   # 过滤
     'rest_framework',
     'base',
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.login_middleware.ValidTokenMiddleware', # 设置pc，移动端，ipad的单点登录
 ]
 
 ROOT_URLCONF = 'wuyou_drf.urls'
@@ -82,6 +84,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wuyou_drf.wsgi.application'
 
+# django认证系统使用的模型类
+AUTH_USER_MODEL = 'users.Users'  # python manage.py createsuper
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -147,9 +151,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")    # 资源上传路径
 # rest_framework配置
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
