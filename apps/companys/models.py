@@ -15,7 +15,7 @@ class Company(BaseModel):
     addr = models.CharField(max_length=100, verbose_name='公司详细地址')
     area = models.CharField(max_length=100, verbose_name='所属区域')
     introduce = models.TextField(blank=True, null=True, verbose_name='介绍')
-    personnel = models.IntegerField(default=0, verbose_name='人员')
+    personnel = models.IntegerField(default=1, verbose_name='人员')
     company_start_time = models.DateField(null=True, blank=True, verbose_name="成立时间")
 
     def __str__(self):

@@ -34,8 +34,8 @@ class BannersView(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retriev
     """
     轮播图View
     """
-    authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
+    # permission_classes = (IsAuthenticated,)
 
     queryset = Banners.objects.all()
     serializer_class = BannersSerializer
